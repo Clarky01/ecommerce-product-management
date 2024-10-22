@@ -62,7 +62,12 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
     }
-
+    public function index()
+    {
+        //GET method
+        $products = Product::all();
+        return response()->json($products);
+    }
 
     //DELETE API
     public function destroy($id)
