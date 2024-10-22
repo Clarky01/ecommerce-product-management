@@ -62,4 +62,35 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
     }
+
+
+    //DELETE API
+    public function destroy($id)
+    {
+
+        $product = Product::find($id);
+
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+
+        $product->delete();
+
+
+        return response()->json(['message' => 'Product deleted successfully'], 200);
+    }
+
+    public function show($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        return response()->json($product);
+    }
+
 }
