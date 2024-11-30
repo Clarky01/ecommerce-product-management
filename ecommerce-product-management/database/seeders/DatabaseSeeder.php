@@ -15,14 +15,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-
+        // Generate random users
         User::factory(10)->create();
 
-        //GENERATE RANDOM DATA
+        // Generate random product data
         Product::factory()->count(10)->create();
         Product::factory()->outOfStock()->create();
 
-
+        // Optional: Example of adding a specific user
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
