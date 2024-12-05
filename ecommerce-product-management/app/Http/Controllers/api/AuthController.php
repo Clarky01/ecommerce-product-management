@@ -20,6 +20,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']),
+            'role' => 'user', // Default role
         ]);
 
         return response()->json(['message' => 'User registered successfully!'], 201);
@@ -30,19 +31,27 @@ class AuthController extends Controller
         // Validate the incoming request data
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required', // This is still required but won't be used
         ]);
 
-        // Check credentials using Auth::attempt() to authenticate the user
-        $credentials = $request->only('email', 'password');
+        // Check if the email exists in the database
+        $user = User::where('email', $request->email)->first();
 
-        if (Auth::attempt($credentials)) {
-            // If authentication is successful, return a success response (e.g., user data, token)
-            $user = Auth::user();
-            return response()->json(['message' => 'Login successful', 'user' => $user], 200);
-        } else {
-            // If credentials are incorrect, return a 401 Unauthorized error
-            return response()->json(['message' => 'Invalid credentials'], 401);
+        if ($user) {
+            // Email is correct, login successfully without checking password
+            // Create a fake token or session for the user (you can replace it with real token logic)
+            $token = 'fake_token_12345'; // This could be a JWT token or just a random string
+
+            // You can return user data along with the token or session
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+                'user' => $user,
+                'role' => $user->role
+            ], 200);
         }
+
+        // If the email is not found, return an unauthorized error
+        return response()->json(['message' => 'Invalid email or password'], 401);
     }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Product;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+
+        User::create([
+            'name' => 'Admin User',
+            'email' => 'adminaccount@example.com', // Set the admin email
+            'password' => Hash::make('adminpassword12345'), // Set the admin password
+            'role' => 'admin',
+        ]);
 
         // Generate random users
         User::factory(10)->create();
